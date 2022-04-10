@@ -69,7 +69,11 @@ const saveConfig = () =>
 
   <el-tag class="total-cache"> 缓存: {{ totalCacheSize }} </el-tag>
 
-  <el-input v-model="vrchatConfig.cache_directory" placeholder="请选择缓存目录">
+  <el-input
+    v-model="vrchatConfig.cache_directory"
+    placeholder="请选择缓存目录"
+    clearable
+  >
     <template #prepend>缓存目录</template>
     <template #append>
       <el-button @click="setNewCachePath">选择目录</el-button>
