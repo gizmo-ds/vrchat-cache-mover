@@ -1,3 +1,3 @@
 # VRChat Cache Mover (WIP)
 
-将VRChat缓存目录修改到指定目录的小工具.
+将VRChat缓存移动到指定目录的小工具.
