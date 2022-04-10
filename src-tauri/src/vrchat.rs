@@ -6,9 +6,8 @@ use std::{env, path::Path};
 #[tauri::command]
 #[cfg(target_os = "windows")]
 pub fn vrchat_path() -> Option<String> {
-    const PATH_FIX: &str = "..//LocalLow//VRChat//VRChat";
     let _vrchat_path = match env::var("LOCALAPPDATA").or_else(|_| env::var("APPDATA")) {
-        Ok(path) => Path::new(path.as_str()).join(PATH_FIX),
+        Ok(path) => Path::new(path.as_str()).join("..//LocalLow//VRChat//VRChat"),
         Err(_) => return None,
     };
     Some(
@@ -28,7 +27,7 @@ pub fn vrchat_config() -> Result<String, tauri::InvokeError> {
         return match fs::read_to_string(config_path) {
             Ok(config) => Ok(config),
             Err(_) => Err(tauri::InvokeError::from("Could not read config.json")),
-        }
+        };
     }
     Err(tauri::InvokeError::from("Could not find vrchat path"))
 }
@@ -93,4 +92,14 @@ pub fn open_vrchat_path() {
             .spawn()
             .ok();
     }
+}
+
+#[tauri::command]
+pub fn save_config(config: &str) -> Result<(), &str> {
+    if let Some(_vrchat_path) = vrchat_path() {
+        let config_path = Path::new(_vrchat_path.as_str()).join("config.json");
+        fs::write(config_path, config).ok();
+        return Ok(());
+    }
+    Err("未找到VRChat配置目录")
 }

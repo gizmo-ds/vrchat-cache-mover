@@ -10,6 +10,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             vrchat::vrchat_path,
             vrchat::vrchat_config,
+            vrchat::save_config,
             vrchat::total_cache,
             vrchat::move_cache,
             vrchat::remove_cache,

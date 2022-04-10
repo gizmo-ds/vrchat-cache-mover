@@ -58,6 +58,10 @@ const copyConfig = () =>
     .writeText(JSON.stringify(vrchatConfig))
     .catch((err) => notification(err, "error"))
     .then(() => notification("配置已复制到剪贴板", "success", 1500));
+const saveConfig = () =>
+  invoke("save_config", { config: JSON.stringify(vrchatConfig) })
+    .then(() => notification("配置已保存", "success", 1500))
+    .catch((err) => notification(err, "error"));
 </script>
 
 <template>
@@ -89,7 +93,9 @@ const copyConfig = () =>
       删除缓存
     </el-button>
 
-    <el-button type="primary" style="float: right"> 保存设置 </el-button>
+    <el-button @click="saveConfig" type="primary" style="float: right">
+      保存设置
+    </el-button>
     <el-button @click="copyConfig" :icon="CopyDocument" style="float: right">
       复制配置内容
     </el-button>
