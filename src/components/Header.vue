@@ -1,8 +1,50 @@
+<script lang="ts" setup>
+import { useI18n } from "vue-i18n";
+import { setI18nLanguage, SUPPORT_LOCALES } from "../i18n";
+import { usePreferredLanguages } from "@vueuse/core";
+
+const { t, locale } = useI18n();
+let language = $ref(locale.value);
+const languages = usePreferredLanguages();
+
+for (const l of languages.value) {
+  if (SUPPORT_LOCALES.includes(l)) {
+    language = l;
+    setI18nLanguage(l);
+    break;
+  }
+}
+
+const options = [
+  {
+    value: "zh-CN",
+    label: "简体中文",
+  },
+  {
+    value: "en-US",
+    label: "English",
+  },
+];
+</script>
+
 <template>
   <div class="app-header">
     <div class="logo">
-      <div>VRChat缓存转移工具</div>
+      <div>{{ t("name") }}</div>
     </div>
+    <el-select
+      v-model="language"
+      class="language"
+      size="small"
+      @change="(v) => setI18nLanguage(v)"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
   </div>
 </template>
 
@@ -42,6 +84,12 @@
       transform: scaleX(1);
       transform-origin: 0 0;
     }
+  }
+
+  .language {
+    position: fixed;
+    top: 45px;
+    right: 8px;
   }
 }
 </style>

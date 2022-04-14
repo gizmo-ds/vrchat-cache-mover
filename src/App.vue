@@ -7,10 +7,13 @@ import {
   Delete,
   CopyDocument,
 } from "@element-plus/icons-vue";
+import { useI18n } from "vue-i18n";
 
 interface cache_directory {
   cache_directory: string;
 }
+
+const { t } = useI18n();
 
 let appVersion = $ref("");
 app.getVersion().then((version) => {
@@ -33,26 +36,26 @@ totalCache();
 const moveCache = () => {
   invoke("move_cache", { newPath: "D:\\Cache\\VRChat" })
     .then(() => {
-      notification("操作成功", "success", 1500);
+      notification(t("messages.success"), "success", 1500);
       totalCacheSize = "0 B";
     })
-    .catch((err) => notification(err, "error"));
+    .catch((err) => notification(t(err), "error"));
 };
 const removeCache = () => {
   invoke("remove_cache")
     .then(() => {
-      notification("操作成功", "success", 1500);
+      notification(t("messages.success"), "success", 1500);
       totalCacheSize = "0 B";
     })
-    .catch((err) => notification(err, "error"));
+    .catch((err) => notification(t(err), "error"));
 };
 const getVRChatConfig = async () =>
   invoke("vrchat_config")
-    .catch((err) => notification(err, "error", 0))
+    .catch((err) => notification(t(err), "error", 0))
     .then((result) => (vrchatConfig = JSON.parse(result as string)));
 getVRChatConfig();
 const openVRChatPath = () =>
-  invoke("open_vrchat_path").catch((err) => notification(err, "error"));
+  invoke("open_vrchat_path").catch((err) => notification(t(err), "error"));
 const setNewCachePath = () =>
   dialog
     .open({ directory: true })
@@ -60,71 +63,67 @@ const setNewCachePath = () =>
 const copyConfig = () =>
   clipboard
     .writeText(JSON.stringify(vrchatConfig))
-    .catch((err) => notification(err, "error"))
-    .then(() => notification("配置已复制到剪贴板", "success", 1500));
+    .catch((err) => notification(t(err), "error"))
+    .then(() => notification(t("messages.success"), "success", 1500));
 const saveConfig = () =>
   invoke("save_config", { config: JSON.stringify(vrchatConfig) })
-    .then(() => notification("配置已保存", "success", 1500))
-    .catch((err) => notification(err, "error"));
+    .then(() => notification(t("messages.success"), "success", 1500))
+    .catch((err) => notification(t(err), "error"));
 </script>
 
 <template>
   <app-header />
 
-  <div :style="{ position: 'fixed', top: '8px', right: '8px' }">
-    <el-tag> 缓存: {{ totalCacheSize }} </el-tag>
-    <el-tag :style="{ marginLeft: '8px' }"> 版本: {{ appVersion }} </el-tag>
+  <div
+    :style="{ position: 'fixed', top: '8px', right: '8px', userSelect: 'none' }"
+  >
+    <el-tag @click="totalCache" :style="{ cursor: 'pointer' }">
+      {{ t("cache", [totalCacheSize]) }}
+    </el-tag>
+    <el-tag :style="{ marginLeft: '8px' }">
+      {{ t("version", [appVersion]) }}
+    </el-tag>
   </div>
 
   <el-input
     v-model="vrchatConfig.cache_directory"
-    placeholder="请选择缓存目录"
+    :placeholder="t('cache-placeholder')"
     clearable
   >
-    <template #prepend>缓存目录</template>
+    <template #prepend>{{ t("cache-directory") }}</template>
     <template #append>
-      <el-button @click="setNewCachePath">选择目录</el-button>
+      <el-button @click="setNewCachePath">{{ t("cache-button") }}</el-button>
     </template>
   </el-input>
 
   <div style="margin-top: 10px">
     <el-button @click="openVRChatPath" :icon="FolderOpened">
-      打开配置目录
+      {{ t("open-config-path-button") }}
     </el-button>
 
     <el-button
       @click="moveCache"
       :disabled="!vrchatConfig.cache_directory"
-      type="danger"
+      color="#eebe77"
+      style="color: var(--el-color-white)"
       :icon="Switch"
     >
-      移动缓存文件
+      {{ t("move-cache-button") }}
     </el-button>
     <el-button @click="removeCache" type="danger" :icon="Delete">
-      删除缓存
+      {{ t("delete-cache-button") }}
     </el-button>
 
     <el-button @click="saveConfig" type="primary" style="float: right">
-      保存设置
+      {{ t("apply-button") }}
     </el-button>
     <el-button @click="copyConfig" :icon="CopyDocument" style="float: right">
-      复制配置内容
+      {{ t("copy-config-content-button") }}
     </el-button>
   </div>
 </template>
 
 <style>
-.total-cache {
-  position: fixed;
-  top: 8px;
-  right: 120px;
-}
-.app-version {
-  position: fixed;
-  top: 8px;
-  right: 8px;
-}
-.total-cache,
 .el-input-group__prepend {
   user-select: none;
 }

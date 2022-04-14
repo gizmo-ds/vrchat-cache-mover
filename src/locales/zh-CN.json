@@ -1,0 +1,19 @@
+{
+  "name": "VRChat缓存转移工具",
+  "cache": "缓存: {0}",
+  "version": "版本: {0}",
+  "cache-directory": "缓存目录",
+  "cache-placeholder": "默认位置 (%AppData%\\..\\LocalLow\\VRChat\\VRChat)",
+  "cache-button": "选择目录",
+  "open-config-path-button": "打开配置目录",
+  "delete-cache-button": "删除缓存",
+  "move-cache-button": "移动缓存文件",
+  "copy-config-content-button": "复制配置内容",
+  "apply-button": "应用",
+  "messages": {
+    "success": "操作成功",
+    "vrchat-path-notfound": "未找到VRChat配置目录",
+    "target-directory-not-exist": "目标目录不存在",
+    "cache-directory-notfound": "未找到原缓存目录"
+  }
+}

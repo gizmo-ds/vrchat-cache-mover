@@ -29,10 +29,10 @@ pub fn vrchat_config() -> Result<String, tauri::InvokeError> {
         }
         return match fs::read_to_string(config_path) {
             Ok(config) => Ok(config),
-            Err(_) => Err(tauri::InvokeError::from("Could not read config.json")),
+            Err(err) => Err(tauri::InvokeError::from(err.to_string())),
         };
     }
-    Err(tauri::InvokeError::from("Could not find vrchat path"))
+    Err(tauri::InvokeError::from("vrchat-path-notfound"))
 }
 
 #[tauri::command]
@@ -46,16 +46,16 @@ pub fn total_cache() -> Option<String> {
 }
 
 #[tauri::command]
-pub fn move_cache(new_path: &str) -> Result<(), &str> {
+pub fn move_cache(new_path: &str) -> Result<(), tauri::InvokeError> {
     match vrchat_path() {
         Some(_vrchat_path) => {
             let cache_path = Path::new(_vrchat_path.as_str()).join("Cache-WindowsPlayer");
             if !cache_path.exists() {
-                return Err("未找到旧的缓存目录");
+                return Err(tauri::InvokeError::from("cache-directory-notfound"));
             }
             let _new_path = Path::new(&new_path);
             if !_new_path.exists() {
-                return Err("目标目录不存在");
+                return Err(tauri::InvokeError::from("target-directory-not-exist"));
             }
             let _new_path = _new_path.to_str().unwrap().to_string();
             std::thread::spawn(move || {
@@ -72,7 +72,7 @@ pub fn move_cache(new_path: &str) -> Result<(), &str> {
             });
             Ok(())
         }
-        None => Err("未找到VRChat配置目录"),
+        None => Err(tauri::InvokeError::from("vrchat-path-notfound")),
     }
 }
 
@@ -98,11 +98,11 @@ pub fn open_vrchat_path() {
 }
 
 #[tauri::command]
-pub fn save_config(config: &str) -> Result<(), &str> {
+pub fn save_config(config: &str) -> Result<(), tauri::InvokeError> {
     if let Some(_vrchat_path) = vrchat_path() {
         let config_path = Path::new(_vrchat_path.as_str()).join("config.json");
         fs::write(config_path, config).ok();
         return Ok(());
     }
-    Err("未找到VRChat配置目录")
+    Err(tauri::InvokeError::from("vrchat-path-notfound"))
 }

@@ -1,0 +1,19 @@
+{
+  "name": "VRChat Cache Mover",
+  "cache": "Cache: {0}",
+  "version": "Version: {0}",
+  "cache-directory": "Cache Directory",
+  "cache-placeholder": "Default Location (%AppData%\\..\\LocalLow\\VRChat\\VRChat)",
+  "cache-button": "Select",
+  "open-config-path-button": "Open Config Path",
+  "delete-cache-button": "Delete Cache",
+  "move-cache-button": "Move Cache",
+  "copy-config-content-button": "Copy Config Content",
+  "apply-button": "Apply",
+  "messages": {
+    "success": "Success",
+    "vrchat-path-notfound": "Could not find vrchat path",
+    "target-directory-not-exist": "Target directory does not exist",
+    "cache-directory-notfound": "Could not find cache directory"
+  }
+}
