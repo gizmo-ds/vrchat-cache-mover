@@ -1,3 +1,7 @@
 {
-  "recommendations": ["johnsoncodehk.volar"]
+  "recommendations": [
+    "johnsoncodehk.volar",
+    "Lokalise.i18n-ally",
+    "matklad.rust-analyzer"
+  ]
 }
