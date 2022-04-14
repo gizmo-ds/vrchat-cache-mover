@@ -2,8 +2,8 @@ name: Publish
 
 on:
   push:
-    branches:
-      - release
+    tags:
+      - "v*"
 
 jobs:
   publish-tauri:
@@ -15,22 +15,26 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: "6.32.6"
       - name: setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: 16
+          cache: "pnpm"
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+      - uses: Swatinem/rust-cache@v1
       - name: install app dependencies and build it
-        run: yarn && yarn build
+        run: pnpm i
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: "App v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
-          releaseDraft: true
+          tagName: app-v__VERSION__
+          releaseName: "VRChatCacheMover v__VERSION__"
+          releaseDraft: false
           prerelease: false
