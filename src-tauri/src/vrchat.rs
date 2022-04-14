@@ -59,7 +59,7 @@ pub fn move_cache(new_path: &str) -> Result<(), tauri::InvokeError> {
             }
             let _new_path = _new_path.to_str().unwrap().to_string();
             std::thread::spawn(move || {
-                fs_extra::dir::copy_with_progress(
+                fs_extra::dir::move_dir_with_progress(
                     cache_path,
                     _new_path,
                     &fs_extra::dir::CopyOptions::new(),
