@@ -27,6 +27,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+      - uses: Swatinem/rust-cache@v1
       - name: install app dependencies and build it
         run: pnpm i
       - uses: tauri-apps/tauri-action@v0
@@ -34,7 +35,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: app-v__VERSION__
-          releaseName: "App v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
-          releaseDraft: true
+          releaseName: "VRChatCacheMover v__VERSION__"
+          releaseDraft: false
           prerelease: false
