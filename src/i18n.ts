@@ -1,16 +1,13 @@
 import { nextTick } from "vue";
 import { createI18n, Locale } from "vue-i18n";
+import enUS from "./locales/en-US.json";
 
 export const SUPPORT_LOCALES = ["zh-CN", "en-US"];
-
-const getResourceMessages = (r: any) => r.default || r;
 
 export const i18n = createI18n({
   locale: "en-US",
   fallbackLocale: "en-US",
-  messages: {
-    "en-US": await import("./locales/en-US.json").then(getResourceMessages),
-  },
+  messages: { "en-US": enUS },
 });
 
 export async function setI18nLanguage(locale: Locale) {
@@ -20,6 +17,8 @@ export async function setI18nLanguage(locale: Locale) {
   i18n.global.locale = locale;
   document.querySelector("html")!.setAttribute("lang", locale);
 }
+
+const getResourceMessages = (r: any) => r.default || r;
 
 async function loadLocaleMessages(locale: Locale) {
   const messages = await import(
