@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppHeader from "./components/Header.vue";
-import { invoke, dialog, clipboard } from "@tauri-apps/api";
+import { invoke, dialog, clipboard, app } from "@tauri-apps/api";
 import {
   FolderOpened,
   Switch,
@@ -12,6 +12,10 @@ interface cache_directory {
   cache_directory: string;
 }
 
+let appVersion = $ref("");
+app.getVersion().then((version) => {
+  appVersion = version;
+});
 let totalCacheSize = $ref("0 B");
 let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
 
@@ -67,7 +71,10 @@ const saveConfig = () =>
 <template>
   <app-header />
 
-  <el-tag class="total-cache"> 缓存: {{ totalCacheSize }} </el-tag>
+  <div :style="{ position: 'fixed', top: '8px', right: '8px' }">
+    <el-tag> 缓存: {{ totalCacheSize }} </el-tag>
+    <el-tag :style="{ marginLeft: '8px' }"> 版本: {{ appVersion }} </el-tag>
+  </div>
 
   <el-input
     v-model="vrchatConfig.cache_directory"
@@ -108,6 +115,11 @@ const saveConfig = () =>
 
 <style>
 .total-cache {
+  position: fixed;
+  top: 8px;
+  right: 120px;
+}
+.app-version {
   position: fixed;
   top: 8px;
   right: 8px;
