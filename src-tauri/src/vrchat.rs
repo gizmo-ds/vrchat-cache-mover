@@ -24,6 +24,9 @@ pub fn vrchat_path() -> Option<String> {
 pub fn vrchat_config() -> Result<String, tauri::InvokeError> {
     if let Some(_vrchat_path) = vrchat_path() {
         let config_path = Path::new(_vrchat_path.as_str()).join("config.json");
+        if !config_path.exists() {
+            return Ok("{}".to_string());
+        }
         return match fs::read_to_string(config_path) {
             Ok(config) => Ok(config),
             Err(_) => Err(tauri::InvokeError::from("Could not read config.json")),
