@@ -34,7 +34,7 @@ const totalCache = () =>
   );
 totalCache();
 const moveCache = () => {
-  invoke("move_cache", { newPath: "D:\\Cache\\VRChat" })
+  invoke("move_cache", { newPath: vrchatConfig.cache_directory })
     .then(() => {
       notification(t("messages.success"), "success", 1500);
       totalCacheSize = "0 B";
