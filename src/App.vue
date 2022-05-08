@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import AppHeader from "./components/Header.vue";
 import { invoke, dialog, clipboard, app } from "@tauri-apps/api";
+import { useI18n } from "vue-i18n";
 import {
   FolderOpened,
   Switch,
   Delete,
   CopyDocument,
 } from "@element-plus/icons-vue";
-import { useI18n } from "vue-i18n";
+import { BrandGithub, BuildingStore } from "@vicons/tabler";
 
 interface cache_directory {
   cache_directory: string;
@@ -16,9 +17,7 @@ interface cache_directory {
 const { t } = useI18n();
 
 let appVersion = $ref("");
-app.getVersion().then((version) => {
-  appVersion = version;
-});
+app.getVersion().then((version) => (appVersion = version));
 let totalCacheSize = $ref("0 B");
 let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
 
@@ -56,7 +55,7 @@ const getVRChatConfig = async () =>
 getVRChatConfig();
 const openVRChatPath = () =>
   invoke("open_vrchat_path").catch((err) => notification(t(err), "error"));
-const setNewCachePath = () =>
+const selectDirectory = () =>
   dialog
     .open({ directory: true })
     .then((path) => path && (vrchatConfig.cache_directory = path as string));
@@ -92,7 +91,9 @@ const saveConfig = () =>
   >
     <template #prepend>{{ t("cache-directory") }}</template>
     <template #append>
-      <el-button @click="setNewCachePath">{{ t("cache-button") }}</el-button>
+      <el-button @click="selectDirectory">
+        {{ t("select-directory-button") }}
+      </el-button>
     </template>
   </el-input>
 
@@ -121,9 +122,40 @@ const saveConfig = () =>
       {{ t("copy-config-content-button") }}
     </el-button>
   </div>
+
+  <div class="links">
+    <el-link
+      href="https://github.com/GizmoOAO/vrchat-cache-mover"
+      target="_blank"
+      type="primary"
+    >
+      <brand-github /> GitHub
+    </el-link>
+    <el-link href="https://gizmooooo.booth.pm/" target="_blank" type="primary">
+      <building-store /> BOOTH
+    </el-link>
+  </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
+.links {
+  position: absolute;
+  bottom: 0.8rem;
+  left: 1rem;
+  > * {
+    margin-right: 0.8em;
+  }
+  .el-link {
+    svg {
+      width: 1.5em;
+      height: 1.5em;
+      margin-right: 0.3em;
+    }
+  }
+}
+</style>
+
+<style lang="scss">
 .el-input-group__prepend {
   user-select: none;
 }

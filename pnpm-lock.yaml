@@ -6,6 +6,7 @@ specifiers:
   '@tauri-apps/cli': ^1.0.0-rc.8
   '@types/lodash-es': ^4.17.6
   '@types/node': ^17.0.23
+  '@vicons/tabler': ^0.12.0
   '@vitejs/plugin-vue': ^2.3.0
   '@vueuse/core': ^8.2.6
   element-plus: ^2.1.11
@@ -21,6 +22,7 @@ specifiers:
 dependencies:
   '@element-plus/icons-vue': 1.1.4_vue@3.2.31
   '@tauri-apps/api': 1.0.0-rc.3
+  '@vicons/tabler': 0.12.0
   '@vueuse/core': 8.2.6_vue@3.2.31
   element-plus: 2.1.11_vue@3.2.31
   vue: 3.2.31
@@ -293,6 +295,10 @@ packages:
   /@types/node/17.0.23:
     resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==}
     dev: true
+
+  /@vicons/tabler/0.12.0:
+    resolution: {integrity: sha512-3+wUFuxb7e8OzZ8Wryct1pzfA2vyoF4lwW98O9s27ZrfCGaJGNmqG+q8A7vQ92Mf+COCgxpK+rhNPTtTvaU6qw==}
+    dev: false
 
   /@vitejs/plugin-vue/2.3.1_vite@2.9.1+vue@3.2.31:
     resolution: {integrity: sha512-YNzBt8+jt6bSwpt7LP890U1UcTOIZZxfpE5WOJ638PNxSEKOqAi0+FSKS0nVeukfdZ0Ai/H7AFd6k3hayfGZqQ==}

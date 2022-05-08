@@ -4,7 +4,7 @@
   "version": "Version: {0}",
   "cache-directory": "Cache Directory",
   "cache-placeholder": "Default Location (%AppData%\\..\\LocalLow\\VRChat\\VRChat)",
-  "cache-button": "Select",
+  "select-directory-button": "Select",
   "open-config-path-button": "Open Config Path",
   "delete-cache-button": "Delete Cache",
   "move-cache-button": "Move Cache",

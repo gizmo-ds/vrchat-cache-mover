@@ -13,6 +13,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.4",
     "@tauri-apps/api": "^1.0.0-rc.3",
+    "@vicons/tabler": "^0.12.0",
     "@vueuse/core": "^8.2.6",
     "element-plus": "^2.1.11",
     "vue": "^3.2.25",
