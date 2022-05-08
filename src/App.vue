@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppHeader from "./components/Header.vue";
 import { invoke, dialog, clipboard, app } from "@tauri-apps/api";
+import { listen } from "@tauri-apps/api/event";
 import { useI18n } from "vue-i18n";
 import {
   FolderOpened,
@@ -20,6 +21,13 @@ let appVersion = $ref("");
 app.getVersion().then((version) => (appVersion = version));
 let totalCacheSize = $ref("0 B");
 let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
+
+// 监听 tauri 的文件拖拽事件
+listen("tauri://file-drop", (event) => {
+  const files = event.payload as string[];
+  if (!files || files.length === 0) return;
+  vrchatConfig.cache_directory = files[0];
+});
 
 const notification = (message: string, type: any, duration: number = 4500) =>
   ElNotification({
