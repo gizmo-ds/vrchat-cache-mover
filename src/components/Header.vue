@@ -1,30 +1,14 @@
 <script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 import { setI18nLanguage, SUPPORT_LOCALES } from "../i18n";
-import { usePreferredLanguages } from "@vueuse/core";
 
 const { t, locale } = useI18n();
 let language = $ref(locale.value);
-const languages = usePreferredLanguages();
 
-for (const l of languages.value) {
-  if (SUPPORT_LOCALES.includes(l)) {
-    language = l;
-    setI18nLanguage(l);
-    break;
-  }
-}
-
-const options = [
-  {
-    value: "zh-CN",
-    label: "简体中文",
-  },
-  {
-    value: "en-US",
-    label: "English",
-  },
-];
+const options = SUPPORT_LOCALES.map((v) => ({
+  label: v.name,
+  value: v.locale,
+}));
 </script>
 
 <template>
