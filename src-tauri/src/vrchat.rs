@@ -53,11 +53,10 @@ pub fn move_cache(new_path: &str) -> Result<(), tauri::InvokeError> {
             if !cache_path.exists() {
                 return Err(tauri::InvokeError::from("cache-directory-notfound"));
             }
-            let _new_path = Path::new(&new_path);
-            if !_new_path.exists() {
-                return Err(tauri::InvokeError::from("target-directory-not-exist"));
+            if let Err(err) = check_new_path(new_path) {
+                return Err(err);
             }
-            let _new_path = _new_path.to_str().unwrap().to_string();
+            let _new_path = new_path.to_string();
             std::thread::spawn(move || {
                 fs_extra::dir::move_dir_with_progress(
                     cache_path,
@@ -105,4 +104,15 @@ pub fn save_config(config: &str) -> Result<(), tauri::InvokeError> {
         return Ok(());
     }
     Err(tauri::InvokeError::from("vrchat-path-notfound"))
+}
+
+#[tauri::command]
+pub fn check_new_path(new_path: &str) -> Result<(), tauri::InvokeError> {
+    let _new_path = Path::new(new_path);
+    if !_new_path.exists() {
+        return Err(tauri::InvokeError::from("target-directory-not-exist"));
+    } else if !_new_path.is_dir() {
+        return Err(tauri::InvokeError::from("target-directory-not-directory"));
+    }
+    return Ok(());
 }

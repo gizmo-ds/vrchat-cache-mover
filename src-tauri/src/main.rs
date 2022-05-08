@@ -14,7 +14,8 @@ fn main() {
             vrchat::total_cache,
             vrchat::move_cache,
             vrchat::remove_cache,
-            vrchat::open_vrchat_path
+            vrchat::open_vrchat_path,
+            vrchat::check_new_path,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

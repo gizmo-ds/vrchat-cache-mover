@@ -26,7 +26,9 @@ let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
 listen("tauri://file-drop", (event) => {
   const files = event.payload as string[];
   if (!files || files.length === 0) return;
-  vrchatConfig.cache_directory = files[0];
+  invoke("check_new_path", { newPath: files[0] })
+    .then(() => (vrchatConfig.cache_directory = files[0]))
+    .catch((err) => notification(t(`messages.${err}`), "error"));
 });
 
 const notification = (message: string, type: any, duration: number = 4500) =>
@@ -46,7 +48,7 @@ const moveCache = () => {
       notification(t("messages.success"), "success", 1500);
       totalCacheSize = "0 B";
     })
-    .catch((err) => notification(t(err), "error"));
+    .catch((err) => notification(t(`messages.${err}`), "error"));
 };
 const removeCache = () => {
   invoke("remove_cache")
@@ -54,15 +56,17 @@ const removeCache = () => {
       notification(t("messages.success"), "success", 1500);
       totalCacheSize = "0 B";
     })
-    .catch((err) => notification(t(err), "error"));
+    .catch((err) => notification(t(`messages.${err}`), "error"));
 };
 const getVRChatConfig = async () =>
   invoke("vrchat_config")
-    .catch((err) => notification(t(err), "error", 0))
+    .catch((err) => notification(t(`messages.${err}`), "error", 0))
     .then((result) => (vrchatConfig = JSON.parse(result as string)));
 getVRChatConfig();
 const openVRChatPath = () =>
-  invoke("open_vrchat_path").catch((err) => notification(t(err), "error"));
+  invoke("open_vrchat_path").catch((err) =>
+    notification(t(`messages.${err}`), "error")
+  );
 const selectDirectory = () =>
   dialog
     .open({ directory: true })
@@ -70,12 +74,21 @@ const selectDirectory = () =>
 const copyConfig = () =>
   clipboard
     .writeText(JSON.stringify(vrchatConfig))
-    .catch((err) => notification(t(err), "error"))
+    .catch((err) => notification(t(`messages.${err}`), "error"))
     .then(() => notification(t("messages.success"), "success", 1500));
-const saveConfig = () =>
-  invoke("save_config", { config: JSON.stringify(vrchatConfig) })
-    .then(() => notification(t("messages.success"), "success", 1500))
-    .catch((err) => notification(t(err), "error"));
+const saveConfig = () => {
+  const save = () => {
+    invoke("save_config", { config: JSON.stringify(vrchatConfig) })
+      .then(() => notification(t("messages.success"), "success", 1500))
+      .catch((err) => notification(t(`messages.${err}`), "error"));
+  };
+  if (vrchatConfig.cache_directory !== "") {
+    return invoke("check_new_path", { newPath: vrchatConfig.cache_directory })
+      .then(save)
+      .catch((err) => notification(t(`messages.${err}`), "error"));
+  }
+  save();
+};
 </script>
 
 <template>

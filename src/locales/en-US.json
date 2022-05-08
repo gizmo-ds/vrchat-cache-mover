@@ -14,6 +14,7 @@
     "success": "Success",
     "vrchat-path-notfound": "Could not find vrchat path",
     "target-directory-not-exist": "Target directory does not exist",
-    "cache-directory-notfound": "Could not find cache directory"
+    "cache-directory-notfound": "Could not find cache directory",
+    "target-directory-not-directory": "Target directory is not a directory"
   }
 }
