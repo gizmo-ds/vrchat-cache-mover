@@ -4,4 +4,5 @@
 
 # Related
 
-- [VRChat Cache Mover Web](https://github.com/GizmoOAO/vrchat-cache-mover-web)
+- [VRChatCacheMover Web](https://github.com/GizmoOAO/vrchat-cache-mover-web)
+- [VRChatConfigurationEditor](https://github.com/project-vrcat/VRChatConfigurationEditor)
