@@ -1,12 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@element-plus/icons-vue': ^2.0.1
   '@tauri-apps/api': 1.0.0-rc.6
   '@tauri-apps/cli': 1.0.0-rc.13
   '@types/node': ^17.0.38
   '@vicons/tabler': ^0.12.0
   '@vitejs/plugin-vue': ^2.3.3
+  '@vueuse/components': ^8.6.0
   '@vueuse/core': ^8.6.0
   element-plus: ^2.2.2
   sass: ^1.52.1
@@ -19,8 +19,8 @@ specifiers:
   vue-tsc: ^0.34.7
 
 dependencies:
-  '@element-plus/icons-vue': 2.0.1_vue@3.2.36
   '@tauri-apps/api': 1.0.0-rc.6
+  '@vueuse/components': 8.6.0_vue@3.2.36
   '@vueuse/core': 8.6.0_vue@3.2.36
   element-plus: 2.2.2_vue@3.2.36
   vue: 3.2.36
@@ -69,14 +69,6 @@ packages:
 
   /@element-plus/icons-vue/1.1.4_vue@3.2.36:
     resolution: {integrity: sha512-Iz/nHqdp1sFPmdzRwHkEQQA3lKvoObk8azgABZ81QUOpW9s/lUyQVUSh0tNtEPZXQlKwlSh7SPgoVxzrE0uuVQ==}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      vue: 3.2.36
-    dev: false
-
-  /@element-plus/icons-vue/2.0.1_vue@3.2.36:
-    resolution: {integrity: sha512-a1N6IXw5AZx6JZQDoMBG9E1Pes1BogGTpL192SeI/piMdpEEcm4cn+MkDxhAvA9SuF1dFbdAU54EoS0xKQhjwg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -421,6 +413,17 @@ packages:
 
   /@vue/shared/3.2.36:
     resolution: {integrity: sha512-JtB41wXl7Au3+Nl3gD16Cfpj7k/6aCroZ6BbOiCMFCMvrOpkg/qQUXTso2XowaNqBbnkuGHurLAqkLBxNGc1hQ==}
+
+  /@vueuse/components/8.6.0_vue@3.2.36:
+    resolution: {integrity: sha512-TkRCknGsBk/Zuap4YC9MLf+xpopdAkHugSVcSVFbciyBwqr3LlWVeJ4HHlHKGIBNOWyMQqDW0WFy47xfAPd3WA==}
+    dependencies:
+      '@vueuse/core': 8.6.0_vue@3.2.36
+      '@vueuse/shared': 8.6.0_vue@3.2.36
+      vue-demi: 0.13.1_vue@3.2.36
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
 
   /@vueuse/core/8.6.0_vue@3.2.36:
     resolution: {integrity: sha512-VirzExCm/N+QdrEWT7J4uSrvJ5hquKIAU9alQ37kUvIJk9XxCLxmfRnmekYc1kz2+6BnoyuKYXVmrMV351CB4w==}

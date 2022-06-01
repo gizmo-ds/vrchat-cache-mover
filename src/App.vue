@@ -4,12 +4,16 @@ import { invoke, dialog, clipboard, app } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { useI18n } from "vue-i18n";
 import {
-  FolderOpened,
-  Switch,
-  Delete,
-  CopyDocument,
-} from "@element-plus/icons-vue";
-import { BrandGithub, BuildingStore } from "@vicons/tabler";
+  BrandGithub,
+  BuildingStore,
+  Sun,
+  Moon,
+  Folder,
+  SwitchHorizontal,
+  TrashX,
+  Copy,
+} from "@vicons/tabler";
+import { UseDark } from "@vueuse/components";
 
 interface cache_directory {
   cache_directory: string;
@@ -92,70 +96,90 @@ const saveConfig = () => {
 </script>
 
 <template>
-  <app-header />
+  <use-dark v-slot="{ isDark, toggleDark }">
+    <app-header />
 
-  <div
-    :style="{ position: 'fixed', top: '8px', right: '8px', userSelect: 'none' }"
-  >
-    <el-tag @click="totalCache" :style="{ cursor: 'pointer' }">
-      {{ t("cache", [totalCacheSize]) }}
-    </el-tag>
-    <el-tag :style="{ marginLeft: '8px' }">
-      {{ t("version", [appVersion]) }}
-    </el-tag>
-  </div>
+    <div
+      :style="{
+        position: 'fixed',
+        top: '8px',
+        right: '8px',
+        userSelect: 'none',
+      }"
+    >
+      <el-tag @click="totalCache" :style="{ cursor: 'pointer' }">
+        {{ t("cache", [totalCacheSize]) }}
+      </el-tag>
+      <el-tag :style="{ marginLeft: '8px' }">
+        {{ t("version", [appVersion]) }}
+      </el-tag>
 
-  <el-input
-    v-model="vrchatConfig.cache_directory"
-    :placeholder="t('cache-placeholder')"
-    clearable
-  >
-    <template #prepend>{{ t("cache-directory") }}</template>
-    <template #append>
-      <el-button @click="selectDirectory">
-        {{ t("select-directory-button") }}
+      <el-switch
+        :model-value="isDark"
+        inline-prompt
+        :active-icon="Moon"
+        :inactive-icon="Sun"
+        @click="toggleDark!()"
+        class="dark-switch"
+        :style="{ marginLeft: '8px' }"
+      />
+    </div>
+
+    <el-input
+      v-model="vrchatConfig.cache_directory"
+      :placeholder="t('cache-placeholder')"
+      clearable
+    >
+      <template #prepend>{{ t("cache-directory") }}</template>
+      <template #append>
+        <el-button @click="selectDirectory">
+          {{ t("select-directory-button") }}
+        </el-button>
+      </template>
+    </el-input>
+
+    <div style="margin-top: 10px">
+      <el-button @click="openVRChatPath" :icon="Folder">
+        {{ t("open-config-path-button") }}
       </el-button>
-    </template>
-  </el-input>
 
-  <div style="margin-top: 10px">
-    <el-button @click="openVRChatPath" :icon="FolderOpened">
-      {{ t("open-config-path-button") }}
-    </el-button>
+      <el-button
+        @click="moveCache"
+        :disabled="!vrchatConfig.cache_directory"
+        type="warning"
+        :icon="SwitchHorizontal"
+      >
+        {{ t("move-cache-button") }}
+      </el-button>
+      <el-button @click="removeCache" type="danger" :icon="TrashX">
+        {{ t("delete-cache-button") }}
+      </el-button>
 
-    <el-button
-      @click="moveCache"
-      :disabled="!vrchatConfig.cache_directory"
-      color="#eebe77"
-      style="color: var(--el-color-white)"
-      :icon="Switch"
-    >
-      {{ t("move-cache-button") }}
-    </el-button>
-    <el-button @click="removeCache" type="danger" :icon="Delete">
-      {{ t("delete-cache-button") }}
-    </el-button>
+      <el-button @click="saveConfig" type="primary" style="float: right">
+        {{ t("apply-button") }}
+      </el-button>
+      <el-button @click="copyConfig" :icon="Copy" style="float: right">
+        {{ t("copy-config-content-button") }}
+      </el-button>
+    </div>
 
-    <el-button @click="saveConfig" type="primary" style="float: right">
-      {{ t("apply-button") }}
-    </el-button>
-    <el-button @click="copyConfig" :icon="CopyDocument" style="float: right">
-      {{ t("copy-config-content-button") }}
-    </el-button>
-  </div>
-
-  <div class="links">
-    <el-link
-      href="https://github.com/GizmoOAO/vrchat-cache-mover"
-      target="_blank"
-      type="primary"
-    >
-      <brand-github /> GitHub
-    </el-link>
-    <el-link href="https://gizmooooo.booth.pm/" target="_blank" type="primary">
-      <building-store /> BOOTH
-    </el-link>
-  </div>
+    <div class="links">
+      <el-link
+        href="https://github.com/GizmoOAO/vrchat-cache-mover"
+        target="_blank"
+        type="primary"
+      >
+        <brand-github /> GitHub
+      </el-link>
+      <el-link
+        href="https://gizmooooo.booth.pm/"
+        target="_blank"
+        type="primary"
+      >
+        <building-store /> BOOTH
+      </el-link>
+    </div>
+  </use-dark>
 </template>
 
 <style lang="scss" scoped>
@@ -179,5 +203,20 @@ const saveConfig = () => {
 <style lang="scss">
 .el-input-group__prepend {
   user-select: none;
+}
+
+.el-switch__core {
+  .el-icon.is-show {
+    color: var(--el-color-black);
+  }
+}
+html.dark {
+  .el-switch__core {
+    border-color: var(--el-switch-off-color) !important;
+    background-color: var(--el-switch-off-color) !important;
+    .el-icon.is-show {
+      color: var(--el-color-white);
+    }
+  }
 }
 </style>
