@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 import { setI18nLanguage, SUPPORT_LOCALES } from "../i18n";
+import { Language as LanguageIcon } from "@vicons/tabler";
 
 const { t, locale } = useI18n();
 let language = $ref(locale.value);
@@ -16,6 +17,11 @@ const options = SUPPORT_LOCALES.map((v) => ({
     <div class="logo">
       <div>{{ t("name") }}</div>
     </div>
+
+    <el-icon class="language-icon" :size="24">
+      <language-icon />
+    </el-icon>
+
     <el-select
       v-model="language"
       class="language"
@@ -33,13 +39,14 @@ const options = SUPPORT_LOCALES.map((v) => ({
 </template>
 
 <style lang="scss" scoped>
+$title-width: 330px;
 .app-header {
   width: 100%;
   height: 75px;
   .logo {
     user-select: none;
     div {
-      width: 330px;
+      width: $title-width;
       height: 60px;
       line-height: 60px;
       font-size: 32px;
@@ -55,7 +62,7 @@ const options = SUPPORT_LOCALES.map((v) => ({
       position: absolute;
       left: 0%;
       bottom: 0;
-      width: 330px;
+      width: $title-width;
       transform: scaleX(0);
       height: 2px;
       background: #ff6266;
@@ -74,6 +81,12 @@ const options = SUPPORT_LOCALES.map((v) => ({
     position: fixed;
     top: 45px;
     right: 8px;
+    width: 180px;
+  }
+  .language-icon {
+    position: fixed;
+    top: 45px;
+    right: 190px;
   }
 }
 </style>
