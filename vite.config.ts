@@ -23,7 +23,7 @@ export default defineConfig({
       resolvers: [
         ElementPlusResolver(),
       ],
-      dts: false,
+      dts: path.resolve("src/components.d.ts"),
     }),
   ],
 });
