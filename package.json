@@ -2,6 +2,7 @@
   "name": "vrchat-cache-mover",
   "private": true,
   "version": "0.0.0",
+  "license": "AGPL-3.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
