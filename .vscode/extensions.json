@@ -1,7 +1,7 @@
 {
   "recommendations": [
-    "matklad.rust-analyzer",
     "lokalise.i18n-ally",
-    "johnsoncodehk.volar"
+    "rust-lang.rust-analyzer",
+    "Vue.volar"
   ]
 }
