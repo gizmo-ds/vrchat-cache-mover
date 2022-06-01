@@ -1,0 +1,19 @@
+{
+  "apply-button": "申し込み",
+  "cache": "キャッシュ：{0}",
+  "cache-directory": "キャッシュディレクトリ",
+  "cache-placeholder": "デフォルトの場所(%AppData%\\ .. \\ LocalLow \\ VRChat \\ VRChat)",
+  "copy-config-content-button": "構成コンテンツのコピー",
+  "delete-cache-button": "キャッシュを削除",
+  "messages": {
+    "cache-directory-notfound": "キャッシュディレクトリが見つかりませんでした",
+    "success": "成功",
+    "target-directory-not-directory": "ターゲットディレクトリはディレクトリではありません",
+    "target-directory-not-exist": "ターゲットディレクトリが存在しません",
+    "vrchat-path-notfound": "vrchatパスが見つかりませんでした"
+  },
+  "move-cache-button": "キャッシュの移動",
+  "open-config-path-button": "構成パスを開く",
+  "select-directory-button": "選択する",
+  "version": "バージョン：{0}"
+}

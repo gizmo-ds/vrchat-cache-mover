@@ -2,11 +2,15 @@ import { createI18n, Locale } from "vue-i18n";
 import { usePreferredLanguages } from "@vueuse/core";
 import enUS from "./locales/en-US.json";
 import zhCN from "./locales/zh-CN.json";
+import jaJP from "./locales/ja-JP.json";
+import koKR from "./locales/ko-KR.json";
 
 export const FALLBACK_LOCALE = "en-US";
 export const SUPPORT_LOCALES = [
   { locale: "zh-CN", name: "简体中文" },
   { locale: "en-US", name: "English" },
+  { locale: "ja-JP", name: "日本語 (機械翻訳)" },
+  { locale: "ko-KR", name: "한국어 (기계 번역)" },
 ];
 
 export function broswerLocale() {
@@ -29,5 +33,7 @@ export const i18n = createI18n({
   messages: {
     "en-US": enUS,
     "zh-CN": zhCN,
+    "ja-JP": jaJP,
+    "ko-KR": koKR,
   },
 });
