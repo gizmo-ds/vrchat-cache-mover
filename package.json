@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "tauri": "tauri",
-    "tauri-dev": "tauri dev",
-    "tauri-build": "tauri build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tauri-apps/api": "1.0.0-rc.6",

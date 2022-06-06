@@ -11,7 +11,7 @@
   },
   "tauri": {
     "bundle": {
-      "active": true,
+      "active": false,
       "targets": "all",
       "identifier": "moe.lumina.cache-mover",
       "icon": ["icons/icon.ico"],
@@ -25,9 +25,7 @@
         "certificateThumbprint": null,
         "digestAlgorithm": "sha256",
         "timestampUrl": "",
-        "wix": {
-          "language": "zh-CN"
-        }
+        "wix": {}
       }
     },
     "updater": {
