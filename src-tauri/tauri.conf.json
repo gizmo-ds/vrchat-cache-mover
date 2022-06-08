@@ -49,7 +49,7 @@
         "height": 300,
         "resizable": true,
         "fullscreen": false,
-        "visible": true,
+        "visible": false,
         "center": true
       }
     ],

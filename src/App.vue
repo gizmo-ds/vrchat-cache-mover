@@ -35,6 +35,9 @@ listen("tauri://file-drop", (event) => {
     .catch((err) => notification(t(`messages.${err}`), "error"));
 });
 
+// 等待主題切換后显示GUI
+setTimeout(() => invoke("ui_created"), 200);
+
 const notification = (message: string, type: any, duration: number = 4500) =>
   ElNotification({
     message,

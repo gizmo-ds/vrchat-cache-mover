@@ -3,10 +3,12 @@
   windows_subsystem = "windows"
 )]
 
-const WEBVIEW2_DOWNLOAD_URL: &str =
-  "https://developer.microsoft.com/microsoft-edge/webview2#download-section";
+use tauri::Manager;
 
 mod vrchat;
+
+const WEBVIEW2_DOWNLOAD_URL: &str =
+  "https://developer.microsoft.com/microsoft-edge/webview2#download-section";
 
 fn main() {
   match tauri::Builder::default()
@@ -19,6 +21,7 @@ fn main() {
       vrchat::remove_cache,
       vrchat::open_vrchat_path,
       vrchat::check_new_path,
+      ui_created,
     ])
     .run(tauri::generate_context!())
   {
@@ -33,4 +36,9 @@ fn main() {
       std::process::exit(1);
     }
   }
+}
+
+#[tauri::command]
+async fn ui_created(window: tauri::Window) {
+  window.get_window("main").unwrap().show().unwrap();
 }
