@@ -13,12 +13,12 @@ export const SUPPORT_LOCALES = [
   { locale: "ko-KR", name: "한국어 (기계 번역)" },
 ];
 
-export function broswerLocale() {
+export function browserLocale() {
   const languages = usePreferredLanguages();
-  const broswerLocale = languages.value.find((lang) =>
+  const browserLocale = languages.value.find((lang) =>
     SUPPORT_LOCALES.find((v) => v.locale === lang) ? lang : undefined
   );
-  return localStorage.getItem("locale") ?? broswerLocale ?? FALLBACK_LOCALE;
+  return localStorage.getItem("locale") ?? browserLocale ?? FALLBACK_LOCALE;
 }
 
 export async function setI18nLanguage(locale: Locale) {
@@ -28,7 +28,7 @@ export async function setI18nLanguage(locale: Locale) {
 }
 
 export const i18n = createI18n({
-  locale: broswerLocale(),
+  locale: browserLocale(),
   fallbackLocale: FALLBACK_LOCALE,
   messages: {
     "en-US": enUS,
