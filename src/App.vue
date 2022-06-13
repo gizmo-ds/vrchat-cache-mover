@@ -123,8 +123,7 @@ const saveConfig = () => {
           inline-prompt
           :active-icon="Moon"
           :inactive-icon="Sun"
-          @click="toggleDark!()"
-          class="dark-switch"
+          @click="toggleDark()"
           :style="{ marginLeft: '8px' }"
         />
       </div>
