@@ -21,6 +21,16 @@ pub fn vrchat_path() -> Option<String> {
 }
 
 #[tauri::command]
+pub fn check_vrchat_path() -> Result<(), tauri::InvokeError> {
+  if let Some(_vrchat_path) = vrchat_path() {
+    if !Path::new(_vrchat_path.as_str()).exists() {
+      return Err(tauri::InvokeError::from("vrchat-path-notfound"));
+    }
+  }
+  Ok(())
+}
+
+#[tauri::command]
 pub fn vrchat_config() -> Result<String, tauri::InvokeError> {
   if let Some(_vrchat_path) = vrchat_path() {
     let config_path = Path::new(_vrchat_path.as_str()).join("config.json");

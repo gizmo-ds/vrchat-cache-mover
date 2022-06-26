@@ -21,6 +21,7 @@ fn main() {
       vrchat::remove_cache,
       vrchat::open_vrchat_path,
       vrchat::check_new_path,
+      vrchat::check_vrchat_path,
       ui_created,
     ])
     .run(tauri::generate_context!())

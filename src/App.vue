@@ -39,11 +39,14 @@ listen("tauri://file-drop", (event) => {
 setTimeout(() => invoke("ui_created"), 200);
 
 const notification = (message: string, type: any, duration: number = 4500) =>
-  ElNotification({
-    message,
-    type,
-    duration,
-  });
+  ElNotification({ message, type, duration });
+
+let disabled = $ref(true);
+
+invoke("check_vrchat_path")
+  .catch((err) => notification(t(`messages.${err}`), "error"))
+  .catch(() => (disabled = false));
+
 const totalCache = () =>
   invoke("total_cache").then(
     (result) => result && (totalCacheSize = result as string)
@@ -53,7 +56,7 @@ const moveCache = () => {
   invoke("move_cache", { newPath: vrchatConfig.cache_directory })
     .then(() => {
       notification(t("messages.success"), "success", 1500);
-      totalCacheSize = "0 B";
+      totalCache();
     })
     .catch((err) => notification(t(`messages.${err}`), "error"));
 };
@@ -61,7 +64,7 @@ const removeCache = () => {
   invoke("remove_cache")
     .then(() => {
       notification(t("messages.success"), "success", 1500);
-      totalCacheSize = "0 B";
+      totalCache();
     })
     .catch((err) => notification(t(`messages.${err}`), "error"));
 };
@@ -148,17 +151,27 @@ const saveConfig = () => {
 
         <el-button
           @click="moveCache"
-          :disabled="!vrchatConfig.cache_directory"
+          :disabled="!vrchatConfig.cache_directory || disabled"
           type="warning"
           :icon="SwitchHorizontal"
         >
           {{ t("move-cache-button") }}
         </el-button>
-        <el-button @click="removeCache" type="danger" :icon="TrashX">
+        <el-button
+          @click="removeCache"
+          type="danger"
+          :icon="TrashX"
+          :disabled="disabled"
+        >
           {{ t("delete-cache-button") }}
         </el-button>
 
-        <el-button @click="saveConfig" type="primary" style="float: right">
+        <el-button
+          @click="saveConfig"
+          type="primary"
+          style="float: right"
+          :disabled="disabled"
+        >
           {{ t("apply-button") }}
         </el-button>
         <el-button @click="copyConfig" :icon="Copy" style="float: right">
