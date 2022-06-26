@@ -88,8 +88,12 @@ pub fn remove_cache() {
 #[tauri::command]
 #[cfg(target_os = "windows")]
 pub fn open_vrchat_path() {
+  use std::os::windows::process::CommandExt;
+  use std::process::Command;
+
   if let Some(_vrchat_path) = vrchat_path() {
-    std::process::Command::new("cmd.exe")
+    Command::new("cmd")
+      .creation_flags(0x08)
       .args(&["/C", "start", _vrchat_path.as_str()])
       .spawn()
       .ok();
