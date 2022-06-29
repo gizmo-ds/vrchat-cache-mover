@@ -39,7 +39,7 @@ listen("tauri://file-drop", (event) => {
 setTimeout(() => invoke("ui_created"), 200);
 
 const notification = (message: string, type: any, duration: number = 4500) =>
-  ElNotification({ message, type, duration });
+  ElNotification({ message, type, duration, position: "bottom-right" });
 
 let disabled = $ref(true);
 
