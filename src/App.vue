@@ -45,7 +45,7 @@ let disabled = $ref(true);
 
 invoke("check_vrchat_path")
   .catch((err) => notification(t(`messages.${err}`), "error"))
-  .catch(() => (disabled = false));
+  .then(() => (disabled = false));
 
 const totalCache = () =>
   invoke("total_cache").then(
