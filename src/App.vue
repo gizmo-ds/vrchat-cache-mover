@@ -14,6 +14,7 @@ import {
   Copy,
 } from "@vicons/tabler";
 import { UseDark } from "@vueuse/components";
+import pkg from "../package.json";
 
 interface cache_directory {
   cache_directory: string;
@@ -180,11 +181,7 @@ const saveConfig = () => {
       </div>
 
       <div class="links">
-        <el-link
-          href="https://github.com/GizmoOAO/vrchat-cache-mover"
-          target="_blank"
-          type="primary"
-        >
+        <el-link :href="pkg.homepage" target="_blank" type="primary">
           <brand-github /> GitHub
         </el-link>
         <el-link
