@@ -73,7 +73,9 @@ const getVRChatConfig = async () =>
   invoke("vrchat_config")
     .catch((err) => notification(t(`messages.${err}`), "error", 0))
     .then((result) => (vrchatConfig = JSON.parse(result as string)));
-getVRChatConfig();
+getVRChatConfig().then(
+  () => vrchatConfig.cache_directory || (vrchatConfig.cache_directory = "")
+);
 const openVRChatPath = () =>
   invoke("open_vrchat_path").catch((err) =>
     notification(t(`messages.${err}`), "error")
