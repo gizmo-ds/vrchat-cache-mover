@@ -69,6 +69,7 @@ jobs:
 
       - name: Build application
         run: |
+          pnpm esno scripts/version.ts
           pnpm tauri build
           mv src-tauri/target/release/*.exe .
 
