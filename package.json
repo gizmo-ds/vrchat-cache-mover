@@ -11,6 +11,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.0.6",
     "@tauri-apps/api": "1.0.0-rc.6",
     "@vueuse/components": "^8.6.0",
     "@vueuse/core": "^8.6.0",

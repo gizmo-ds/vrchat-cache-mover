@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppHeader from "./components/Header.vue";
+import DropHover from "./components/DropHover.vue";
 import { invoke, dialog, clipboard, app } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { useI18n } from "vue-i18n";
@@ -28,8 +29,8 @@ let totalCacheSize = $ref("0 B");
 let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
 
 // 监听 tauri 的文件拖拽事件
-listen("tauri://file-drop", (event) => {
-  const files = event.payload as string[];
+listen<string[]>("tauri://file-drop", (event) => {
+  const files = event.payload;
   if (!files || files.length === 0) return;
   invoke("check_new_path", { newPath: files[0] })
     .then(() => (vrchatConfig.cache_directory = files[0]))
@@ -109,14 +110,14 @@ const saveConfig = () => {
     <use-dark v-slot="{ isDark, toggleDark }">
       <app-header />
 
-      <div
-        :style="{
-          position: 'fixed',
-          top: '8px',
-          right: '8px',
-          userSelect: 'none',
-        }"
-      >
+      <drop-hover />
+
+      <div :style="{
+        position: 'fixed',
+        top: '8px',
+        right: '8px',
+        userSelect: 'none',
+      }">
         <el-tag @click="totalCache" :style="{ cursor: 'pointer' }">
           {{ t("cache", [totalCacheSize]) }}
         </el-tag>
@@ -124,21 +125,11 @@ const saveConfig = () => {
           {{ t("version", [appVersion]) }}
         </el-tag>
 
-        <el-switch
-          :model-value="isDark"
-          inline-prompt
-          :active-icon="Moon"
-          :inactive-icon="Sun"
-          @click="toggleDark()"
-          :style="{ marginLeft: '8px' }"
-        />
+        <el-switch :model-value="isDark" inline-prompt :active-icon="Moon" :inactive-icon="Sun" @click="toggleDark()"
+          :style="{ marginLeft: '8px' }" />
       </div>
 
-      <el-input
-        v-model="vrchatConfig.cache_directory"
-        :placeholder="t('cache-placeholder')"
-        clearable
-      >
+      <el-input v-model="vrchatConfig.cache_directory" :placeholder="t('cache-placeholder')" clearable>
         <template #prepend>{{ t("cache-directory") }}</template>
         <template #append>
           <el-button @click="selectDirectory">
@@ -152,29 +143,15 @@ const saveConfig = () => {
           {{ t("open-config-path-button") }}
         </el-button>
 
-        <el-button
-          @click="moveCache"
-          :disabled="!vrchatConfig.cache_directory || disabled"
-          type="warning"
-          :icon="SwitchHorizontal"
-        >
+        <el-button @click="moveCache" :disabled="!vrchatConfig.cache_directory || disabled" type="warning"
+          :icon="SwitchHorizontal">
           {{ t("move-cache-button") }}
         </el-button>
-        <el-button
-          @click="removeCache"
-          type="danger"
-          :icon="TrashX"
-          :disabled="disabled"
-        >
+        <el-button @click="removeCache" type="danger" :icon="TrashX" :disabled="disabled">
           {{ t("delete-cache-button") }}
         </el-button>
 
-        <el-button
-          @click="saveConfig"
-          type="primary"
-          style="float: right"
-          :disabled="disabled"
-        >
+        <el-button @click="saveConfig" type="primary" style="float: right" :disabled="disabled">
           {{ t("apply-button") }}
         </el-button>
         <el-button @click="copyConfig" :icon="Copy" style="float: right">
@@ -186,11 +163,7 @@ const saveConfig = () => {
         <el-link :href="pkg.homepage" target="_blank" type="primary">
           <brand-github /> GitHub
         </el-link>
-        <el-link
-          href="https://gizmooooo.booth.pm/"
-          target="_blank"
-          type="primary"
-        >
+        <el-link href="https://gizmooooo.booth.pm/" target="_blank" type="primary">
           <building-store /> BOOTH
         </el-link>
       </div>
@@ -203,9 +176,11 @@ const saveConfig = () => {
   position: absolute;
   bottom: 0.8rem;
   left: 1rem;
-  > * {
+
+  >* {
     margin-right: 0.8em;
   }
+
   .el-link {
     svg {
       width: 1.5em;
@@ -226,10 +201,12 @@ const saveConfig = () => {
     color: var(--el-color-black);
   }
 }
+
 html.dark {
   .el-switch__core {
     border-color: var(--el-switch-off-color) !important;
     background-color: var(--el-switch-off-color) !important;
+
     .el-icon.is-show {
       color: var(--el-color-white);
     }
