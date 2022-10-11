@@ -19,6 +19,8 @@ import pkg from "../package.json";
 
 interface cache_directory {
   cache_directory: string;
+  cache_expiry_delay?: number;
+  cache_size?: number;
 }
 
 const { t } = useI18n();
@@ -27,6 +29,7 @@ let appVersion = $ref("");
 app.getVersion().then((version) => (appVersion = version));
 let totalCacheSize = $ref("0 B");
 let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
+let showAdvanced = $ref(false);
 
 // 监听 tauri 的文件拖拽事件
 listen<string[]>("tauri://file-drop", (event) => {
@@ -103,33 +106,61 @@ const saveConfig = () => {
   }
   save();
 };
+const configNumberKeys = ["cache_size", "cache_expiry_delay"];
+const configChange = () => {
+  const c = vrchatConfig;
+  for (const k in vrchatConfig) {
+    if (configNumberKeys.includes(k)) {
+      //@ts-ignore
+      if (c[k] === "") c[k] = undefined;
+      //@ts-ignore
+      else c[k] = Number(c[k]);
+    }
+  }
+};
 </script>
 
 <template>
-  <el-config-provider :button="{ autoInsertSpace: true }">
+  <el-config-provider>
     <use-dark v-slot="{ isDark, toggleDark }">
       <app-header />
 
       <drop-hover />
 
-      <div :style="{
-        position: 'fixed',
-        top: '8px',
-        right: '8px',
-        userSelect: 'none',
-      }">
-        <el-tag @click="totalCache" :style="{ cursor: 'pointer' }">
-          {{ t("cache", [totalCacheSize]) }}
+      <div
+        :style="{
+          position: 'fixed',
+          top: '8px',
+          right: '8px',
+          userSelect: 'none',
+        }"
+      >
+        <el-tag
+          @click="totalCache"
+          :style="{ cursor: 'pointer' }"
+          :title="t('cache-total.tooltip')"
+        >
+          {{ t("cache-total", [totalCacheSize]) }}
         </el-tag>
         <el-tag :style="{ marginLeft: '8px' }">
           {{ t("version", [appVersion]) }}
         </el-tag>
 
-        <el-switch :model-value="isDark" inline-prompt :active-icon="Moon" :inactive-icon="Sun" @click="toggleDark()"
-          :style="{ marginLeft: '8px' }" />
+        <el-switch
+          :model-value="isDark"
+          inline-prompt
+          :active-icon="Moon"
+          :inactive-icon="Sun"
+          @click="toggleDark()"
+          :style="{ marginLeft: '8px' }"
+        />
       </div>
 
-      <el-input v-model="vrchatConfig.cache_directory" :placeholder="t('cache-placeholder')" clearable>
+      <el-input
+        v-model="vrchatConfig.cache_directory"
+        :placeholder="t('cache-placeholder')"
+        clearable
+      >
         <template #prepend>{{ t("cache-directory") }}</template>
         <template #append>
           <el-button @click="selectDirectory">
@@ -143,15 +174,29 @@ const saveConfig = () => {
           {{ t("open-config-path-button") }}
         </el-button>
 
-        <el-button @click="moveCache" :disabled="!vrchatConfig.cache_directory || disabled" type="warning"
-          :icon="SwitchHorizontal">
+        <el-button
+          @click="moveCache"
+          :disabled="!vrchatConfig.cache_directory || disabled"
+          type="warning"
+          :icon="SwitchHorizontal"
+        >
           {{ t("move-cache-button") }}
         </el-button>
-        <el-button @click="removeCache" type="danger" :icon="TrashX" :disabled="disabled">
+        <el-button
+          @click="removeCache"
+          type="danger"
+          :icon="TrashX"
+          :disabled="disabled"
+        >
           {{ t("delete-cache-button") }}
         </el-button>
 
-        <el-button @click="saveConfig" type="primary" style="float: right" :disabled="disabled">
+        <el-button
+          @click="saveConfig"
+          type="primary"
+          style="float: right"
+          :disabled="disabled"
+        >
           {{ t("apply-button") }}
         </el-button>
         <el-button @click="copyConfig" :icon="Copy" style="float: right">
@@ -159,11 +204,52 @@ const saveConfig = () => {
         </el-button>
       </div>
 
+      <div style="margin-top: 10px">
+        <el-button type="primary" link @click="showAdvanced = !showAdvanced">
+          {{ t("advanced") }}
+        </el-button>
+
+        <div class="advanced" v-show="showAdvanced">
+          <el-space wrap>
+            <el-input
+              type="number"
+              v-model="vrchatConfig.cache_expiry_delay"
+              :placeholder="t('advanced.cache-expiry-delay.placeholder')"
+              @change="configChange"
+            >
+              <template #prepend>
+                {{ t("advanced.cache-expiry-delay") }}
+              </template>
+              <template #append>
+                {{ t("advanced.cache-expiry-delay.suffix") }}
+              </template>
+            </el-input>
+            <el-input
+              type="number"
+              v-model="vrchatConfig.cache_size"
+              :placeholder="t('advanced.cache-size.placeholder')"
+              @change="configChange"
+            >
+              <template #prepend>
+                {{ t("advanced.cache-size") }}
+              </template>
+              <template #append>
+                {{ t("advanced.cache-size.suffix") }}
+              </template>
+            </el-input>
+          </el-space>
+        </div>
+      </div>
+
       <div class="links">
         <el-link :href="pkg.homepage" target="_blank" type="primary">
           <brand-github /> GitHub
         </el-link>
-        <el-link href="https://gizmooooo.booth.pm/" target="_blank" type="primary">
+        <el-link
+          href="https://gizmooooo.booth.pm/"
+          target="_blank"
+          type="primary"
+        >
           <building-store /> BOOTH
         </el-link>
       </div>
@@ -177,7 +263,7 @@ const saveConfig = () => {
   bottom: 0.8rem;
   left: 1rem;
 
-  >* {
+  > * {
     margin-right: 0.8em;
   }
 
@@ -188,6 +274,10 @@ const saveConfig = () => {
       margin-right: 0.3em;
     }
   }
+}
+
+.advanced {
+  padding-left: 2px;
 }
 </style>
 
@@ -202,6 +292,12 @@ const saveConfig = () => {
   }
 }
 
+.el-link {
+  * {
+    user-select: none;
+  }
+}
+
 html.dark {
   .el-switch__core {
     border-color: var(--el-switch-off-color) !important;
@@ -211,5 +307,10 @@ html.dark {
       color: var(--el-color-white);
     }
   }
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
 }
 </style>
