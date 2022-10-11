@@ -56,7 +56,7 @@ pub fn total_cache() -> Option<String> {
 }
 
 #[tauri::command]
-pub fn move_cache(new_path: &str) -> Result<(), tauri::InvokeError> {
+pub async fn move_cache(new_path: &str) -> Result<(), tauri::InvokeError> {
   match vrchat_path() {
     Some(_vrchat_path) => {
       let cache_path = Path::new(_vrchat_path.as_str()).join("Cache-WindowsPlayer");
@@ -67,18 +67,11 @@ pub fn move_cache(new_path: &str) -> Result<(), tauri::InvokeError> {
         return Err(err);
       }
       let _new_path = new_path.to_string();
-      std::thread::spawn(move || {
-        fs_extra::dir::move_dir_with_progress(
-          cache_path,
-          _new_path,
-          &fs_extra::dir::CopyOptions::new(),
-          |process_info| {
-            println!("{}", process_info.total_bytes);
-            fs_extra::dir::TransitProcessResult::ContinueOrAbort
-          },
-        )
-        .unwrap();
-      });
+      if let Err(err) =
+        fs_extra::dir::move_dir(cache_path, _new_path, &fs_extra::dir::CopyOptions::new())
+      {
+        return Err(tauri::InvokeError::from(err.to_string()));
+      }
       Ok(())
     }
     None => Err(tauri::InvokeError::from("vrchat-path-notfound")),

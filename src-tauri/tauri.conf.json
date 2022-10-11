@@ -45,7 +45,7 @@
     "windows": [
       {
         "title": "VRChat Cache Mover",
-        "width": 850,
+        "width": 880,
         "height": 300,
         "resizable": true,
         "fullscreen": false,

@@ -14,6 +14,7 @@
   "copy-config-content-button": "Copy Config Content",
   "delete-cache-button": "Delete Cache",
   "messages.cache-directory-notfound": "Could not find cache directory",
+  "messages.cache-moving": "Cache is moving, please wait...",
   "messages.success": "Success",
   "messages.target-directory-not-directory": "Target directory is not a directory",
   "messages.target-directory-not-exist": "Target directory does not exist",

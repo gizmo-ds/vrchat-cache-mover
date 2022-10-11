@@ -30,6 +30,7 @@ app.getVersion().then((version) => (appVersion = version));
 let totalCacheSize = $ref("0 B");
 let vrchatConfig: cache_directory = $ref({ cache_directory: "" });
 let showAdvanced = $ref(false);
+let moving = $ref(false);
 
 // 监听 tauri 的文件拖拽事件
 listen<string[]>("tauri://file-drop", (event) => {
@@ -58,12 +59,24 @@ const totalCache = () =>
   );
 totalCache();
 const moveCache = () => {
+  const nh = ElNotification({
+    message: t("messages.cache-moving"),
+    type: "info",
+    showClose: false,
+    duration: 0,
+    position: "bottom-right",
+  });
+  moving = true;
   invoke("move_cache", { newPath: vrchatConfig.cache_directory })
-    .then(() => {
-      notification(t("messages.success"), "success", 1500);
+    .then(() => notification(t("messages.success"), "success", 1500))
+    .catch((err: string) =>
+      notification(err.indexOf(" ") > -1 ? err : t(`messages.${err}`), "error")
+    )
+    .finally(() => {
+      moving = false;
       totalCache();
-    })
-    .catch((err) => notification(t(`messages.${err}`), "error"));
+      nh.close();
+    });
 };
 const removeCache = () => {
   invoke("remove_cache")
@@ -121,7 +134,7 @@ const configChange = () => {
 </script>
 
 <template>
-  <el-config-provider>
+  <el-config-provider :button="{ autoInsertSpace: true }">
     <use-dark v-slot="{ isDark, toggleDark }">
       <app-header />
 
@@ -176,9 +189,10 @@ const configChange = () => {
 
         <el-button
           @click="moveCache"
-          :disabled="!vrchatConfig.cache_directory || disabled"
+          :disabled="!vrchatConfig.cache_directory || disabled || moving"
           type="warning"
           :icon="SwitchHorizontal"
+          :loading="moving"
         >
           {{ t("move-cache-button") }}
         </el-button>
@@ -186,7 +200,7 @@ const configChange = () => {
           @click="removeCache"
           type="danger"
           :icon="TrashX"
-          :disabled="disabled"
+          :disabled="disabled || moving"
         >
           {{ t("delete-cache-button") }}
         </el-button>

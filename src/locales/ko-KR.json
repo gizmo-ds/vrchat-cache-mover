@@ -14,6 +14,7 @@
   "copy-config-content-button": "구성 콘텐츠 복사",
   "delete-cache-button": "캐시 삭제",
   "messages.cache-directory-notfound": "캐시 디렉토리를 찾을 수 없습니다",
+  "messages.cache-moving": "캐시가 이동 중입니다. 잠시만 기다려 주십시오...",
   "messages.success": "성공",
   "messages.target-directory-not-directory": "대상 디렉토리가 디렉토리가 아닙니다.",
   "messages.target-directory-not-exist": "대상 디렉토리가 존재하지 않습니다",
