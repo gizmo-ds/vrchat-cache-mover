@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { listen } from "@tauri-apps/api/event";
+import { listen, Event } from "@tauri-apps/api/event";
 import { Folder } from "@element-plus/icons-vue";
 
 let show = $ref(false);
 
-listen("tauri://file-drop-hover", () => (show = true));
+listen("tauri://file-drop-hover", (event: Event<Array<string>>) => {
+  if (event.payload.length > 0) show = true;
+});
 listen("tauri://file-drop-cancelled", () => (show = false));
 listen("tauri://file-drop", () => (show = false));
 </script>
 
 <template>
-  <div class="drop-hover" v-if="show">
+  <div class="drop-hover" v-if="show" @click="show = false">
     <div>
       <div>
         <el-icon size="3rem">
@@ -32,14 +34,14 @@ listen("tauri://file-drop", () => (show = false));
   top: 0;
   left: 0;
 
-  >div {
+  > div {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--el-bg-color);
 
-    >div {
+    > div {
       margin: 0 auto;
       width: 90vw;
       height: 90vh;
