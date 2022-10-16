@@ -1,0 +1,7 @@
+{
+  "buildCommand": "pnpm vitepress build --base=/",
+  "cleanUrls": true,
+  "github": {
+    "silent": true
+  }
+}
