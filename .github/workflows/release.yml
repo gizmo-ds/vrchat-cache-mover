@@ -19,7 +19,7 @@ jobs:
 
       - name: Changelog generate
         run: |
-          whatchanged --project=https://github.com/GizmoOAO/vrchat-cache-mover.git --branch=main --output=CHANGELOG.md
+          whatchanged --project=https://github.com/gizmo-ds/vrchat-cache-mover.git --branch=main --output=CHANGELOG.md
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
