@@ -1,13 +1,13 @@
 use bytesize::ByteSize;
 use path_absolutize::*;
 use std::fs;
-use std::{env, path::Path};
+use std::path::Path;
 
 #[tauri::command]
 #[cfg(target_os = "windows")]
 pub fn vrchat_path() -> Option<String> {
-  let _vrchat_path = match env::var("LOCALAPPDATA").or_else(|_| env::var("APPDATA")) {
-    Ok(path) => Path::new(path.as_str()).join("..//LocalLow//VRChat//VRChat"),
+  let _vrchat_path = match windirs::known_folder_path(windirs::FolderId::LocalAppDataLow) {
+    Ok(path) => path.as_path().join("VRChat//VRChat"),
     Err(_) => return None,
   };
   Some(
