@@ -1,8 +1,9 @@
 # VRChat Cache Mover
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/gizmo-ds/vrchat-cache-mover/Release?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gizmo-ds/vrchat-cache-mover/release.yml)
 [![Release](https://img.shields.io/github/v/release/gizmo-ds/vrchat-cache-mover.svg?include_prereleases&style=flat-square)](https://github.com/gizmo-ds/vrchat-cache-mover/releases/latest)
 [![License](https://img.shields.io/github/license/gizmo-ds/vrchat-cache-mover?style=flat-square)](./LICENSE)
+[![爱发电](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fafdian.net%2Fapi%2Fuser%2Fget-profile%3Fuser_id%3D75e549844b5111ed8df552540025c377&query=%24.data.user.name&label=%E7%88%B1%E5%8F%91%E7%94%B5&color=%23946ce6)](https://afdian.net/a/gizmo)
 
 将 VRChat 缓存移动到指定目录的小工具, 拥有相对现代并且易用的 GUI.
 
@@ -14,7 +15,7 @@
 
 ## Installation
 
-> 大部分Windows操作系统没有内置 WebView2 Runtime, 所以需要 [安装 WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2#download-section).
+> 大部分 Windows 操作系统没有内置 WebView2 Runtime, 所以需要 [安装 WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2#download-section).
 
 你可以通过 [Release](https://github.com/gizmo-ds/vrchat-cache-mover/releases/latest) 下载预编译的文件, 解压缩并运行.
 
@@ -22,3 +23,7 @@
 
 - [VRChatCacheMover Web](https://github.com/gizmo-ds/vrchat-cache-mover-web)
 - [VRChatConfigurationEditor](https://github.com/project-vrcat/VRChatConfigurationEditor)
+
+## Sponsors
+
+[![Sponsors](https://afdian-connect.deno.dev/sponsor.svg)](https://afdian.net/a/gizmo)
