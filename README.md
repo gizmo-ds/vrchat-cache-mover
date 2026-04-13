@@ -15,7 +15,7 @@
 
 ## Installation
 
-> 大部分 Windows 操作系统没有内置 WebView2 Runtime, 所以需要 [安装 WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2#download-section).
+> 部分 Windows 操作系统没有内置 WebView2 Runtime, 可能需要 [安装 WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2#download-section).
 
 你可以通过 [Release](https://github.com/gizmo-ds/vrchat-cache-mover/releases/latest) 下载预编译的文件, 解压缩并运行.
 
